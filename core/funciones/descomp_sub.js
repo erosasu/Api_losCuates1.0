@@ -99,7 +99,7 @@ console.log(body)
         console.log('este tubo es de :'+tubo)
     }
 
-    if((/vidrio/i.test(body)||/espejo/i.test(body))&&!(/ventana/i.test(body)||/puerta/i.test(body)||/domo/i.test(body)||/cancel de baño/i.test(body))){
+    if((/vidrio/i.test(body)||/espejo/i.test(body))&&!(/corrediza/i.test(body)||/puerta/i.test(body)||/domo/i.test(body)||/cancel de baño/i.test(body)||/ventana/i.test(body))){
         return cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula)
     }
     else if(/mosquitero corredizo/i.test(body)){
@@ -111,7 +111,7 @@ console.log(body)
         return cot_plegadiza(coloralum, alto, ancho, divi, gastovidrio)
     }
     else if (/corrediza/i.test(body)){
-        
+        console.log('entro a corrediza')
         let gastovidrio = cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto-10, ancho-10, pelicula)
         return cot_CorredizaNacional(coloralum, alto, ancho, in_vent_nacional, mosquitero, divi, gastovidrio, body)
     }

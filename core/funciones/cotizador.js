@@ -153,6 +153,9 @@ const cot_CorredizaNacional = (coloralum, alto, ancho, tipo, mosquitero, divi, g
 
     console.log(g_perimetros)
     console.log(g_vidrio)
+    console.log(g_mosquitero)
+    console.log(g_herrajes)
+    console.log(g_hojas)
     total= g_perimetros+g_hojas+g_herrajes+g_mosquitero+g_vidrio
     return total;
 }
