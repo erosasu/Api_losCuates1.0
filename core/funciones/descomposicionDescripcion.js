@@ -33,13 +33,6 @@ for(i=0;i<submsg.length;i++){
         }
         console.log('la cantidad es: '+cantidad)
         
-        if(/corrediza/i.test(submsg[i])&&!/pulgadas/.test(submsg[i])){
-            console.log( 'Falto especificar las pulgadas del aluminio de la ventana, se cotizará con 3 pulgadas')
-        }
-
-        if(/mosquitero/i.test(submsg[i])&&!/corredizo?/i.test(submsg[i])){
-            console.log(  'Falto especificar si es corredizo o fijo el mosquitero ')
-        }
         
     gastos_unitarios.length= 0;
     
@@ -62,7 +55,7 @@ for(let i=0;i< gastos_unitarios.length;i++){
     else if(/instalado/.test(msg)&&gasto>200&&gasto<1000){
         porcganacia = 3.7
     }
-    else if(/cubierta/i.test(msg)){
+    else if(/cubierta/.test(msg)){
         porcganacia=3.2
     }
     else if(/instalado/.test(msg)&&gasto>1000&&gasto<4000){
