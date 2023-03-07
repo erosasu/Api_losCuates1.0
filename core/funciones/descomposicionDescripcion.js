@@ -62,6 +62,9 @@ for(let i=0;i< gastos_unitarios.length;i++){
     else if(/instalado/.test(msg)&&gasto>200&&gasto<1000){
         porcganacia = 3.7
     }
+    else if(/cubierta/i.test(msg)){
+        porcganacia=3.2
+    }
     else if(/instalado/.test(msg)&&gasto>1000&&gasto<4000){
         porcganacia = 3
     }

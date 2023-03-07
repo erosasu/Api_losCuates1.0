@@ -4,8 +4,6 @@ require('dotenv').config()
 
 const {descomponerMensaje} = require('../../core/funciones/descomposicionDescripcion');
 
-
-
 module.exports={
     login:(req, res)=>{
        const data = req.body
@@ -48,7 +46,7 @@ module.exports={
 
         console.log(cotizacion)
         
-        data.fecha = `${today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' '+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()}`
+        data.fechaCreacion = `${today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' '+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()}`
         data.gasto= cotizacion.g_total
         data.porcentajeGanancia= cotizacion.por_ganancia;
         data.precioCliente= cotizacion.precio;
@@ -58,15 +56,43 @@ module.exports={
         
        
         modelo.create(data).then(response =>{
-            const {gasto, porcentajeGanancia, precioCliente, sub_descripciones, gastosUnitarios , cliente} = response;
-            res.render('confirmacion', {cliente, gasto, porcentajeGanancia, precioCliente, sub_descripciones, gastosUnitarios} );
+            const {gasto, porcentajeGanancia, precioCliente, sub_descripciones, gastosUnitarios , cliente, _id} = response;
+            res.render('confirmacion', {cliente, gasto, porcentajeGanancia, precioCliente, sub_descripciones, gastosUnitarios, _id} );
         }).catch(err=>{
             console.log(err)
-            res.render('confirmacion', {error:true,  cliente: data.cliente, descripcion: data.descripcion})
+            res.render(`confirmacion`, {error:true,  cliente: data.cliente, descripcion: data.descripcion})
         })
     },
     formRegistro:(req, res)=>{
         res.render('registro');
-    }   
+    },
+    aceptarCotizacion:(req, res)=>{
+
+        const id = req.params.id;
+        const aceptada= req.body.aceptada;
+        
+        modelo.findOne({ _id:id})
+        .then(data=>{
+            console.log(data)
+            data['aceptada'] = aceptada
+            data.save();
+            
+            if(aceptada=='true'){
+            res.send('Se cambio la cotizacion a ACEPTADA')
+            }
+            else {
+            res.send('La cotizacion quedo registrada como RECHAZADA')
+            }
+        })
+        .catch(err=>{
+            res.status(400).send('No se actualizo la cotizacion por lo tanto se registro como RECHAZADA')
+        })
+
+
+
+
+    }
+
+
 
 }

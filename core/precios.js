@@ -1,13 +1,30 @@
 
 var materiales={
 cristal :{
-'claro':{'3mm':{'crudo':156},'4mm' :{'crudo':229},'6mm':{'crudo' :284,'templado':639},'9mm':{'crudo':550,'templado':998}},
-'tintex':{'6mm':{'crudo':385, 'templado':800},'9mmm':{'crudo':993,'templado':1570}},
-'filtrasol':{'6mm':{'crudo':330,'templado':730}},
-'espejo':{'3mm':{'crudo':280},'4mm':{'crudo':380},'6mm':{'crudo':470}},
-'satinado':{'6mm':{'crudo':508,'templado':989},'9mm':{'crudo':899,'templado':1639}}
- },
+'claro':{'3mm':{'crudo':156},
+         '4mm' :{'crudo':229},
+         '6mm':{'crudo' :284,
+                'templado':639
+       },'9mm':{'crudo':550,
+                'templado':998}},
 
+'tintex':{'6mm':{'crudo':385, 
+                'templado':800
+        },'9mmm':{'crudo':993,
+                'templado':1570}},
+
+'filtrasol':{'6mm':{'crudo':330,
+                'templado':730}},
+
+'espejo':{'3mm':{'crudo':280},
+          '4mm':{'crudo':380},
+          '6mm':{'crudo':470}},
+
+'satinado':{'6mm':{'crudo':508,
+                'templado':989},
+            '9mm':{'crudo':899,
+                'templado':1639}}
+ },
     selladores:{
         silicon:80,
         acrilastic:55,
@@ -37,7 +54,11 @@ cristal :{
     plana12:15,
     carrito: 50,
     vinil11:80,
-    chapatetra:200
+    chapatetra:200,
+    kittemplado6mm:{'natural':{ '130':1000, '150':1100, '200':1300},
+                    'cromado':{'130':1000, '150':1100, '200':1300},
+                    'negro':{'130':1000, '150':1100, '200':1300},
+                    'blanco':{'130':1000, '150':1100, '200':1300}}
 
 },
 mosquitero :
@@ -176,7 +197,45 @@ corrediza:
     zoclo2venas: 500,
     zoclo1vena: 400,
     cabezal: 250,   
-}}},
+}
+},'serie4000':
+    {'natural':
+        {riel:{'2':1200,'3':1500},  
+         hojaventana:800,
+         hojamosqui:900,
+         escuadrahoja:20,
+         escuadrariel:25,
+         carrehoja:80,
+         carremosqui:50
+    },'blanco':{riel:{'2':1200,'3':1500}, 
+        hojaventana:800,
+        hojamosqui:900,
+        escuadrahoja:20,
+        escuadrariel:25,
+        carrehoja:80,
+        carremosqui:50
+    },'negro':{riel:{'2':1200,'3':1500},  
+        hojaventana:800,
+        hojamosqui:900,
+        escuadrahoja:20,
+        escuadrariel:25,
+        carrehoja:80,
+        carremosqui:50
+    },'griseuropa':{riel:{'2':1200,'3':1500},  
+        hojaventana:800,
+        hojamosqui:900,
+        escuadrahoja:20,
+        escuadrariel:25,
+        carrehoja:80,
+        carremosqui:50
+    },'e100':{riel:{'2':1200,'3':1500},   
+        hojaventana:800,
+        hojamosqui:900,
+        escuadrahoja:20,
+        escuadrariel:25,
+        carrehoja:80,
+        carremosqui:50
+    }}},
 
 cancel_baño:
 {'natural' : {

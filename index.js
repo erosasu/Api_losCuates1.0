@@ -1,28 +1,35 @@
 const express = require('express');
 const  mongoose  = require('mongoose');
+const {engine} = require('express-handlebars')
+const morgan = require('morgan')
 
 require('dotenv').config();
-const apiRoutes = require('./src/api.js')
 
+//initializations
 const app = express();
 
-const {engine} = require('express-handlebars')
-
-app.engine('handlebars', engine())
+//configuraciones handlebars
+app.engine('handlebars', engine({
+    partialsDir: __dirname+'/src/views/partials',
+    helpers: require('./src/lib/handlebars')
+}))
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/src/views')
 
-
-
+app.use( express.static(__dirname + './src/public'))
 app.use('/fotos', express.static(__dirname + '/archivos'))
 app.use('/assets', express.static(__dirname + '/assets'))
 
-
-
-app.use(express.urlencoded());
+//middlewares
+app.use(morgan('dev'));
+app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 
-app.use(apiRoutes)
+//Routes
+app.use(require('./src/routes'))
+app.use(require('./src/api.js'))
+app.use(require('./src/routes/authentication'))
+app.use('/links', require('./src/routes/links'))
 
 const port = process.env.PORT||3000;
 
