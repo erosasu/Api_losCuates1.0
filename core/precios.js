@@ -55,6 +55,8 @@ cristal :{
     carrito: 50,
     vinil11:80,
     chapatetra:200,
+    doblemanija:300,
+    pivote:120,
     kittemplado6mm:{'natural':{ '130':1000, '150':1100, '200':1300},
                     'cromado':{'130':1000, '150':1100, '200':1300},
                     'negro':{'130':1000, '150':1100, '200':1300},
@@ -407,7 +409,22 @@ peliculas :{
  pelicureflecta :100,
  pelicupolarizada :100,
  esmerilado :100
-}
+},
+duela:{natural:{'unavista':500,'dosvistas':800},
+        blanco:{'unavista':500,'dosvistas':800},
+        negro:{'unavista':500,'dosvistas':800},
+        e100:{'unavista':500,'dosvistas':800},
+        griseuropa:{'unavista':500,'dosvistas':800},},
+perfilesvarios:{'natural':{silla:150,
+                            batientedoble:250},
+                'blanco':{silla:150,
+                    batientedoble:250},
+                'negro':{silla:150,
+                    batientedoble:250},
+                'e100':{silla:150,
+                    batientedoble:250},
+                'griseuropa':{silla:150,
+                    batientedoble:250},}
 }
 
 module.exports= {materiales}

@@ -4,8 +4,8 @@ const { cot_vidrio } = require('./vidrio')
 
 function cotizarcancelbañocorreizo(alto, ancho, color, tipo, pelicula){
     
-    const gastovidrio= cot_vidrio('claro', '6mm', 'templado', alto, ancho, pelicula)
-    const gastokit=0;
+    let gastovidrio= cot_vidrio('claro', '6mm', 'templado', alto, ancho, pelicula)
+    let gastokit=0;
 
         if(tipo=='sencillo'){
             if(ancho<=130){
@@ -35,8 +35,10 @@ function cotizarcancelbañocorreizo(alto, ancho, color, tipo, pelicula){
             else{
                 return 'Excedente de medidas'
             }
+           
         }
-        return gastokit+gastovidrio
+        let total = gastokit+gastovidrio
+        return total
 }
 
 module.exports= { cotizarcancelbañocorreizo }

@@ -1,4 +1,4 @@
-const { composicion_producto } = require("./descomp_sub")
+const { composicion_producto } = require("./index_cotizador")
 
 
 function descomponerMensaje(msg){
@@ -48,6 +48,15 @@ for(let i=0;i< gastos_unitarios.length;i++){
 }
 
 
+    if(/cancel de baño/i.test(msg)){
+        porcganacia=2;
+    }
+    else if(/ventana/i.test(msg)&&!/sin instalacion/.test(msg)){
+        porcganacia=2.4
+    }
+    else if (/puerta/i.test(msg)&&/aluminio/.test(msg)){
+        porcganacia=2.3
+    }
 
     if(/instalado/.test(msg)&&gasto<200){
         porcganacia = 4.5
