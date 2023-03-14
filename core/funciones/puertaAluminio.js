@@ -2,6 +2,8 @@ const {materiales} = require('../precios')
 
 function cot_g_duela(alto, ancho, tipoPuertaAluminio, coloralum, vista){
     let g_duela;
+    console.log(vista)
+    console.log(materiales.duela['natural']['unavista'])
 
     if(tipoPuertaAluminio=='soloaluminio'){
        g_duela=materiales.duela[coloralum][vista]*((alto/100)*(ancho/100)/(.12*6.06))

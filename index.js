@@ -39,9 +39,13 @@ app.get('', (req, res)=>{
 })
 
 const uri = process.env.MONGODB
+console.log(uri)
 
- mongoose.connect(uri, async (err,)=>{
+
+mongoose.set('strictQuery', true);
+mongoose.connect(uri, async (err,)=>{
     //error-first callback
+    
     if(err){
         console.log('No se pudo conectar a mi base de datos')
     }else{

@@ -43,10 +43,6 @@ module.exports={
             res.status(401).send('Falto que especificaras las medidas o las introdujiste incorrectamente, intenta de nuevo')
             return
         }
-        else if(/corrediza/i.test(data.descripciones)&&!/pulgadas/.test(data.descripciones)){
-            res.send( 'Falto especificar las pulgadas del aluminio de la ventana, se cotizará con 3 pulgadas')
-            return
-        }
         else if(/mosquitero/i.test(data.descripciones)&&!/corredizo?/i.test(data.descripciones)){
             res.send('Falto especificar si es corredizo o fijo el mosquitero ')
             return
@@ -64,7 +60,6 @@ module.exports={
         data.sub_descripciones=cotizacion.subdescripciones;
         data.gastosUnitarios=cotizacion.g_unitarios;
         data.descripcion = data.descripciones
-        
        
         modelo.create(data).then(response =>{
             const {gasto, porcentajeGanancia, precioCliente, sub_descripciones, gastosUnitarios , cliente, _id} = response;
@@ -72,7 +67,7 @@ module.exports={
         }).catch(err=>{
             console.log(err)
             res.render(`confirmacion`, {error:true,  cliente: data.cliente, descripcion: data.descripcion})
-        })
+        }) 
     },
     formRegistro:(req, res)=>{
         res.render('registro');
@@ -98,12 +93,5 @@ module.exports={
         .catch(err=>{
             res.status(400).send('No se actualizo la cotizacion por lo tanto se registro como RECHAZADA')
         })
-
-
-
-
     }
-
-
-
 }

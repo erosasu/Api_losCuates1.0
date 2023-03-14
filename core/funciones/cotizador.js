@@ -64,6 +64,16 @@ const cot_CorredizaNacional = (coloralum, alto, ancho, tipo, mosquitero, divi, g
     let g_herrajes
     let g_mosquitero = 0
     let total
+
+    if(tipo=='1.5in'){
+        g_perimetros=(materiales.corrediza['1.5in']['natural'].jamba/601)*(alto*2+ancho)+(materiales.corrediza['1.5in']['natural'].riel/605)*ancho
+        g_hojas=(materiales.corrediza['1.5in'][coloralum].traslape/605)*(alto*3)+(materiales.corrediza['2in'][coloralum].cabezal/605)*(ancho*1.5)
+        g_herrajes=materiales.selladores.acrilastic+100
+        g_mosquitero=(materiales.mosquitero[coloralum].solera/605)*(ancho+largo)+50
+
+        total= g_herrajes+g_hojas+g_mosquitero+g_perimetros
+        return total;
+    }
     
    
     if(mosquitero==true){
@@ -151,11 +161,7 @@ const cot_CorredizaNacional = (coloralum, alto, ancho, tipo, mosquitero, divi, g
         
     }
 
-    console.log(g_perimetros)
-    console.log(g_vidrio)
-    console.log(g_mosquitero)
-    console.log(g_herrajes)
-    console.log(g_hojas)
+   
     total= g_perimetros+g_hojas+g_herrajes+g_mosquitero+g_vidrio
     return total;
 }
@@ -199,7 +205,7 @@ const cot_cancelbaño = (coloralum, alto, ancho, lamina, pelicula)=>{
             g_laminas=materiales.laminas['acrilico'].acri180x240}
 
     g_aluminio=(alto/550)*(materiales.cancel_baño[coloralum].marco_semiluejo*4+materiales.cancel_baño[coloralum].jambabaño*2)+
-    (ancho/607)*(materiales.cancel_baño[coloralum].riel+materiales.cancel_baño[coloralum].guia+materiales.cancel_baño[coloralum].marco_semiluejo*2)
+    (ancho/607)*(materiales.cancel_baño[coloralum].riel+materiales.cancel_baño[coloralum].guia+materiales.cancel_baño[coloralum].marco_semilujo*2)
     g_herrajes=materiales.herrajes.carrecancel*4+materiales.herrajes.tornillo*8+materiales.selladores.silicon
     console.log('gasto alumini:'+g_aluminio)
     console.log('gasto lamina:'+g_laminas)
