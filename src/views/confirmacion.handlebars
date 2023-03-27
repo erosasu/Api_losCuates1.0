@@ -3,7 +3,12 @@
 <p>La descricripcion {{descripcion}} para el cliente {{cliente}} ya existe, eso significa que estas tratando de mandar una cotizacion duplicada y no es posible, lo siento.</p>
 {{else}}
 
-<p>Hola, se creo una cotizacion para el cliente {{cliente}}, con la siguiente informacion. sub-descripciones: {{sub_descripciones}} <br> Gastos unitarios: ${{gastosUnitarios}}<br>Gasto de material total: ${{gasto}}<br>Porcentaje de ganancia: {{porcentajeGanancia}}<br>Precio al cliente: ${{precioCliente}}</p>
+<p>Hola, se creo una cotizacion para el cliente {{cliente}}, con la siguiente informacion.
+<br> Descripciones de productos: {{descripcion}}
+ <br> Gasto total de material: ${{gasto}}
+ <br>Importe de cada producto: ${{importes}}
+ <br>Porcentaje de ganancia Promedio: {{porcentajeGanancia}}
+ <br>Precio al cliente: ${{precioCliente}}</p>
 <form method="POST" action="/confirmacion/{{_id}}">
 
     <label>¿El cliente acepto la cotizacion?</label>

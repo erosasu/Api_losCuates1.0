@@ -8,13 +8,21 @@ const cot_vidrio=(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelic
 }
 
 const cot_mosquitero=(coloralum, alto, ancho, body)=>{
+
     let total;
     console.log(materiales.mosquitero[coloralum].vertical460, alto, ancho)
     if(/sin rieles/.test(body)||/con mosquitero/.test(body)){
     let gastoverticales =((materiales.mosquitero[coloralum].vertical460)/4.60)*(alto/100)*2
-    let gastohorizontales=((materiales.mosquitero[coloralum].horizontal)/6.05)*(ancho/100)*2
+    let gastohorizontales=((materiales.mosquitero[coloralum].horizontal)/6.05)*(ancho/100)
     let gastotela= (alto/100)*(ancho/100)*40
     let gastoherrajes = 2*materiales.herrajes.carre_mosqui+2*materiales.herrajes.fleje+2*materiales.herrajes.plana12
+    
+    console.log(gastohorizontales)
+    console.log(gastoverticales)
+    console.log(gastotela)
+    console.log(gastoherrajes)
+    
+    
     total = gastohorizontales+gastoverticales+gastotela+gastoherrajes
     return total
     }else{
@@ -26,7 +34,12 @@ const cot_mosquitero=(coloralum, alto, ancho, body)=>{
     console.log(gastohorizontales)
     let gastotela= (alto/100)*(ancho/100)*40
     let gastoherrajes = 2*materiales.herrajes.carre_mosqui+2*materiales.herrajes.fleje+2*materiales.herrajes.plana12
+    
+    
+    
+    
     total= gastohorizontales+gastoverticales+gastotela+gastoherrajes+gastorieles
+   
     return total
     } 
 }
@@ -160,13 +173,12 @@ const cot_CorredizaNacional = (coloralum, alto, ancho, tipo, mosquitero, divi, g
         }
         
     }
-
    
     total= g_perimetros+g_hojas+g_herrajes+g_mosquitero+g_vidrio
     return total;
 }
 
-const cot_cancelbaño = (coloralum, alto, ancho, lamina, pelicula)=>{
+const cot_cancelbaño = (coloralum, alto, ancho, lamina, pelicula, tipocancel)=>{
     let g_aluminio
     let g_laminas
     let g_herrajes
@@ -176,7 +188,7 @@ const cot_cancelbaño = (coloralum, alto, ancho, lamina, pelicula)=>{
         g_laminas=(alto/100)*(ancho/100)*materiales.laminas['policarbonato'] }
     else if(lamina=='vidrio'){
         console.log('entro a vidrio')
-        g_laminas= cot_vidrio('claro','6mm','templado',alto,ancho,pelicula)}
+        g_laminas= cot_vidrio('claro','6mm','templado',alto-7,ancho-7,pelicula)}
 
     else if(lamina=='plastico'&&ancho<66&&alto<190){
         g_laminas=materiales.laminas['plastico'].pla60x180}
@@ -203,11 +215,17 @@ const cot_cancelbaño = (coloralum, alto, ancho, lamina, pelicula)=>{
         else if(this.lamina==='acrilico'&&(ancho<186&&alto<250)||(ancho<246&&alto<190)){
             console.log('entro a arilico de 180 x 240')
             g_laminas=materiales.laminas['acrilico'].acri180x240}
-
-    g_aluminio=(alto/550)*(materiales.cancel_baño[coloralum].marco_semiluejo*4+materiales.cancel_baño[coloralum].jambabaño*2)+
+    
+    if(tipocancel='escruadra'){        
+    g_aluminio=(alto/550)*(materiales.cancel_baño[coloralum].marco_semilujo*4+materiales.cancel_baño[coloralum].jambabaño)+
     (ancho/607)*(materiales.cancel_baño[coloralum].riel+materiales.cancel_baño[coloralum].guia+materiales.cancel_baño[coloralum].marco_semilujo*2)
+    }else{
+        g_aluminio=(alto/550)*(materiales.cancel_baño[coloralum].marco_semilujo*4+materiales.cancel_baño[coloralum].jambabaño*2)+
+        (ancho/607)*(materiales.cancel_baño[coloralum].riel+materiales.cancel_baño[coloralum].guia+materiales.cancel_baño[coloralum].marco_semilujo*2)
+
+    }
     g_herrajes=materiales.herrajes.carrecancel*4+materiales.herrajes.tornillo*8+materiales.selladores.silicon
-    console.log('gasto alumini:'+g_aluminio)
+    console.log('gasto aluminio:'+g_aluminio)
     console.log('gasto lamina:'+g_laminas)
     console.log('gasto herrajes:'+g_herrajes)
     total=g_aluminio+g_laminas+g_herrajes

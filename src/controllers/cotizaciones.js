@@ -4,6 +4,8 @@ require('dotenv').config()
 
 const {descomponerMensaje} = require('../../core/funciones/descomposicionDescripcion');
 
+let contadorCotizaciones=0;
+
 module.exports={
     login:(req, res)=>{
        const data = req.body
@@ -33,44 +35,62 @@ module.exports={
        }
     },
 
-    registro:(req, res)=>{
+    cotizar:(req, res)=>{
+        contadorCotizaciones=contadorCotizaciones+1;
         const data = req.body;
 
-        if(!data.cliente||!data.descripciones){
-            res.status(400).send('Faltaron datos')
+        if(!data.cliente||!data.descripcion){
+            res.status(400).send('Faltaron datos, regresa a la pagina anterior para completar la información')
             return;
-        }else if(!/\d+.?\d? x \d+.?\d?/.test(data.descripciones)){
-            res.status(401).send('Falto que especificaras las medidas o las introdujiste incorrectamente, intenta de nuevo')
+        }else if(!/\d+.?\d? x \d+.?\d?/.test(data.descripcion)){
+            res.status(400).send('Falto que especificaras las medidas o las introdujiste incorrectamente, intenta de nuevo')
             return
         }
-        else if(/mosquitero/i.test(data.descripciones)&&!/corredizo?/i.test(data.descripciones)){
-            res.send('Falto especificar si es corredizo o fijo el mosquitero ')
-            return
-        }
-        var today = new Date();
         
-        const cotizacion= descomponerMensaje(data.descripciones)
+        const today = new Date()
+        
+        const Productos= descomponerMensaje(data.descripcion)
+        
+        console.log(Productos)
 
-        console.log(cotizacion)
+    let sumatoriaPorcentajes=0;
+    let gasto=0;
+    let totalsinIva=0;
+    //sumar gastos unitarios
+    for(let i=0;i< Productos.length;i++){
+        gasto+=Productos[i].gastomaterial
+        totalsinIva+=Productos[i].importe
+        sumatoriaPorcentajes+=Productos[i].porcientoganancia 
+    }
+    
+    
+
+
+    const porcentajeGananciaPromedio=sumatoriaPorcentajes/(Productos.length)
+
         
-        data.fechaCreacion = `${today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' '+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()}`
-        data.gasto= cotizacion.g_total
-        data.porcentajeGanancia= cotizacion.por_ganancia;
-        data.precioCliente= cotizacion.precio;
-        data.sub_descripciones=cotizacion.subdescripciones;
-        data.gastosUnitarios=cotizacion.g_unitarios;
-        data.descripcion = data.descripciones
+        data.fechaCreacion = `${today.getDate()}/${(today.getMonth()+1)}/${today.getFullYear()}`
+        data.Gasto= gasto
+        data.porcentajeGanancia= porcentajeGananciaPromedio;
+        data.precioCliente= totalsinIva;  
+        data.productos=Productos 
+        data.noCotizacion=contadorCotizaciones
+
+        if(data.descuento==null){
+            console.log('entro a descuento null')
+            data.descuento=0;
+        }    
        
         modelo.create(data).then(response =>{
-            const {gasto, porcentajeGanancia, precioCliente, sub_descripciones, gastosUnitarios , cliente, _id} = response;
-            res.render('confirmacion', {cliente, gasto, porcentajeGanancia, precioCliente, sub_descripciones, gastosUnitarios, _id} );
+            const {productos, fechaCreacion, cliente, precioCliente, domicilio, celular, descuento, noCotizacion} = response; 
+            res.json({productos, fechaCreacion,cliente, precioCliente, domicilio, celular, descuento, noCotizacion} );
         }).catch(err=>{
             console.log(err)
             res.render(`confirmacion`, {error:true,  cliente: data.cliente, descripcion: data.descripcion})
         }) 
     },
-    formRegistro:(req, res)=>{
-        res.render('registro');
+    formCotizar:(req, res)=>{
+        res.render('cotizacion');
     },
     aceptarCotizacion:(req, res)=>{
 
@@ -93,5 +113,11 @@ module.exports={
         .catch(err=>{
             res.status(400).send('No se actualizo la cotizacion por lo tanto se registro como RECHAZADA')
         })
+    },
+    registrarCotizacion:(req, res)=>{
+
+    },
+    formRegistrarCotizacion:(req, res)=>{
+        res.render('registroCotizacion')
     }
 }

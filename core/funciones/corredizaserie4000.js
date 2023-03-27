@@ -1,7 +1,7 @@
 
 const {materiales} =  require('../precios')
 
-function cot_serie4000(alto, ancho, gastovidrio, mosquitero, cant_hojas, coloralum){
+function cot_serie4000(alto, ancho, gastovidrio, mosquitero, cant_hojas, coloralum,serie){
 
     const  cant_riel2=0, cant_riel3=0, cant_mos=0, cant_adapt= 0;
     let g_mosquitero=0;
@@ -20,16 +20,16 @@ function cot_serie4000(alto, ancho, gastovidrio, mosquitero, cant_hojas, coloral
         viasriel='3';
     }
 
-    const g_perimetro=(materiales.corrediza['serie4000'][coloralum].riel[viasriel]/600)*(alto*2+ancho*2)
-    const g_hojas=(materiales.corrediza['serie4000'][coloralum].hojaventana/600)*(ancho*2+alto*2*cant_hojas)+
-    (materiales.corrediza['serie4000'][coloralum].traslape/600)*(alto*(cant_hojas+1))
-    let g_herrajes=materiales.corrediza['serie4000']['blanco'].carrehoja*cant_hojas*2+
-    materiales.corrediza['serie4000']['blanco'].escuadrahoja*cant_hojas*4+
-    materiales.corrediza['serie4000']['blanco'].escuadrariel*8+materiales.herrajes.vinil11+materiales.selladores.acrilastic*2+materiales.herrajes.embutir4000
+    const g_perimetro=(materiales.corrediza[serie][coloralum].riel[viasriel]/600)*(alto*2+ancho*2)
+    const g_hojas=(materiales.corrediza[serie][coloralum].hojaventana/600)*(ancho*2+alto*2*cant_hojas)+
+    (materiales.corrediza[serie][coloralum].traslape/600)*(alto*(cant_hojas+1))
+    let g_herrajes=materiales.corrediza[serie][coloralum].carrehoja*cant_hojas*2+
+    materiales.corrediza[serie][coloralum].escuadrahoja*cant_hojas*4+
+    materiales.corrediza[serie][coloralum].escuadrariel*8+materiales.herrajes.vinil11+materiales.selladores.acrilastic*2+materiales.herrajes.embutir4000
 
     if(mosquitero){
-    g_mosquitero=(materiales.corrediza['serie4000'][coloralum].hojamosqui/600)*(alto*2+(ancho/cant_hojas)*2);
-    g_herrajes+=materiales.corrediza['serie4000']['blanco'].carremosqui*2+materiales.corrediza['serie4000']['blanco'].escuadrahoja*4
+    g_mosquitero=(materiales.corrediza[serie][coloralum].hojamosqui/600)*(alto*2+(ancho/cant_hojas)*2);
+    g_herrajes+=materiales.corrediza[serie][coloralum].carremosqui*2+materiales.corrediza['serie4000']['blanco'].escuadrahoja*4
     }
 
     console.log('perimetro:', g_perimetro)

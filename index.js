@@ -2,11 +2,12 @@ const express = require('express');
 const  mongoose  = require('mongoose');
 const {engine} = require('express-handlebars')
 const morgan = require('morgan')
-
+const cors = require('cors')
 require('dotenv').config();
 
 //initializations
 const app = express();
+
 
 //configuraciones handlebars
 app.engine('handlebars', engine({
@@ -15,7 +16,7 @@ app.engine('handlebars', engine({
 }))
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/src/views')
-
+app.use(cors())
 app.use( express.static(__dirname + './src/public'))
 app.use('/fotos', express.static(__dirname + '/archivos'))
 app.use('/assets', express.static(__dirname + '/assets'))
@@ -39,8 +40,6 @@ app.get('', (req, res)=>{
 })
 
 const uri = process.env.MONGODB
-console.log(uri)
-
 
 mongoose.set('strictQuery', true);
 mongoose.connect(uri, async (err,)=>{

@@ -1,9 +1,9 @@
 const {materiales} = require('../precios.js')
 
 
-const cot_vidrio=(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula)=>{
-
-    return (alto/100*ancho/100)*(materiales.cristal[tipo_vidrio][grosor_vidrio][proceso_vidrio]+pelicula)
+const cot_vidrio=(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula, procesPerimetros)=>{
+    const g_perimetros=(alto*2/100+ancho*2/100)*procesPerimetros
+    return (alto/100*ancho/100)*(materiales.cristal[tipo_vidrio][grosor_vidrio][proceso_vidrio]+pelicula)+g_perimetros
     
 }
 

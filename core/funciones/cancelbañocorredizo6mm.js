@@ -8,8 +8,8 @@ function cotizarcancelbañocorreizo(alto, ancho, color, tipo, pelicula){
     let gastokit=0;
 
         if(tipo=='sencillo'){
-            if(ancho<=130){
-                 gastokit=materiales.herrajes.kittemplado6mm[color]['130']
+            if(ancho<=120){
+                 gastokit=materiales.herrajes.kittemplado6mm[color]['120']
             }
             else if(ancho<=150){
                 gastokit=materiales.herrajes.kittemplado6mm[color]['150']
@@ -29,8 +29,8 @@ function cotizarcancelbañocorreizo(alto, ancho, color, tipo, pelicula){
             else if(ancho<=100){
                 gastokit=materiales.herrajes.kittemplado6mm[color]['200']
             }
-            else if (ancho<130){
-                gastokit=materiales.herrajes.kittemplado6mm[color]['130']*2
+            else if (ancho<120){
+                gastokit=materiales.herrajes.kittemplado6mm[color]['120']*2
             }
             else{
                 return 'Excedente de medidas'

@@ -1,9 +1,9 @@
-const {materiales} =require('../precios');
+const {materiales, procesos} =require('../precios');
 const { cot_mosquitero, cot_CorredizaNacional, cot_plegadiza,cot_cancelbaño, cot_Domo} = require('./cotizador');
 const {cotizarcancelbañocorreizo}= require('./cancelbañocorredizo6mm')
-const { cotizadorPuerta }=require('./puertaAluminio');
-const { cot_proyeccion } = require('./proyeccion');
-const { cot_fija } = require('./ventanafija');
+const { cotizadorPuerta3in, cot_Puertaunatrescuartos, cot_puertasduela }=require('./puertaAluminio');
+const { cot_proyeccion35, cot_proyeccionSerie } = require('./proyeccion');
+const { cot_fija, cot_FijaEspañola, cot_fijaSifon } = require('./ventanafija');
 const { cot_serie4000 } = require('./corredizaserie4000');
 const {cot_espejoflotado, cot_vidrio }= require('./vidrio')
 
@@ -13,7 +13,7 @@ const composicion_producto =(body, alto, ancho)=>{
 let tipo_vidrio = 'claro';
 let grosor_vidrio= '6mm';
 let proceso_vidrio='crudo';
-
+let procesPerimetros=0;
 let hojas=2;
 
 let coloralum='natural'
@@ -48,13 +48,13 @@ let pelicula = 0
         coloralum = 'natural'}
     else if(/negro?/.test(body)){
         coloralum = 'negro'}
-    else if(/electro 100/.test(body)||/champig?ne/.test(body)){
+    else if(/electro 100/.test(body)||/champig?ne/.test(body)||/e100/.test(body)){
         coloralum = 'e100' }
-    else if(/gris europa/.test(body)){
-        coloralum = 'griseuro'}
+    else if(/gris europa/.test(body)||/griseuropa/.test(body)||/gris Europa/.test(body)){
+        coloralum = 'griseuropa'}
     else if(/ madera /.test(body)){
         coloralum ='madera'}
-    else if(/cromado/.test(body)){
+    else if(/cromado/.test(body)||/billante/.test(body)){
         coloralum='cromado'
     }
 
@@ -84,18 +84,24 @@ let pelicula = 0
         pelicula =materiales.peliculas.pelicupolarizada
     }
     else if(/vidrio esmerilado/.test(body)){
-        pelicula =materiales.peliculas.esmerilado
+        pelicula =procesos.esmerilado
     }
 
-    
+    if(/biselado/.test(body)){
+        procesPerimetros+=procesos.biselado
+    }
+
+    if(/boleado/.test(body)){
+        procesPerimetros+=procesos.cantoboleado
+    }
+    else if(/chaflan/.test(body)){
+        procesPerimetros+=procesos.chaflan
+    }
 
     //Index seleccionador de algoritmo para cotizar
-    if((/vidrio/i.test(body)||/espejo/i.test(body)||/cubierta/i.test(body))&&!(/corrediza/i.test(body)||/puerta/i.test(body)||/domo/i.test(body)||/cancel de baño/i.test(body)||/ventana/i.test(body)||/flotado/.test(body))){
-        console.log('entro a vidrio')
-        return cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula)
-    }
+    
 
-    else if(/mosquitero corredizo/i.test(body)){
+    if(/mosquitero corredizo/i.test(body)){
         return cot_mosquitero(coloralum,alto,ancho, body)
     }
 
@@ -104,7 +110,7 @@ let pelicula = 0
         return cot_plegadiza(coloralum, alto, ancho, divi, gastovidrio)
     }
 
-    else if (/corrediza/i.test(body)&&!/serie/.test(body)){
+    else if (/corrediza/i.test(body)&&!/serie /.test(body)){
         let in_vent_nacional = '3in';
         let mosquitero = false
 
@@ -124,19 +130,23 @@ let pelicula = 0
         return cot_CorredizaNacional(coloralum, alto, ancho, in_vent_nacional, mosquitero, hojas, gastovidrio, body)
     }
 
-    else if(/cancel de baño/i.test(body)&&/con alum/.test(body)){
+    else if(/cancel/.test(body)&&/baño/i.test(body)&&/con aluminio/.test(body)&&!/templado/.test(body)){
         let lamina='plastico'
-
+        let tipocancel='sencillo'
         //define la lamina para cancel de baño con aluminio
         if(/acrilico/.test(body)){
         lamina='acrilico'
-         }else if(/cancel de baño/i.test(body)&&/vidrio/.test(body)){
+         }else if(/vidrio/.test(body)){
         lamina='vidrio'
-        }else if(/cancel de baño/i.test(body)&&/policarbonato/.test(body)){
+        }else if(/policarbonato/.test(body)){
         lamina='policarbonato'
         }
+
+        if(/escuadra/.test(body)){
+            tipocancel='escuadra';
+            }
         
-        return cot_cancelbaño(coloralum, alto, ancho, lamina, pelicula)
+        return cot_cancelbaño(coloralum, alto, ancho, lamina, pelicula, tipocancel)
 
     }
 
@@ -153,19 +163,50 @@ let pelicula = 0
         }
         //define el tubular utilizado para los domos
         if(/tubo/.test(body)){
-        tubo=body.substring(body.search(/tubo/)+5,body.search(/tubo/)+8)
+        tubo=body.substring(body.search(/tubo/)+5,body.search(/tubo/)+9)
         }
         return cot_Domo(coloralum, alto, ancho, lamina, tubo, g_vidrio)
     }
 
-    else if(/cancel de baño/i.test(body)&&/templado/.test(body)){
+    else if(/cancel/i.test(body)&&/baño/.test(body)&&/templado/.test(body)){
         let tipocanceltemplado='sencillo'
+        console.log('entro a cancel templado')
 
         //define si el cancel de baño es en escuadra
-        if(/cancel de baño/i.test(body)&&/templado/.test(body)&&/escuadra/.test(body)){
+        if(/escuadra/.test(body)){
         tipocanceltemplado='escuadra';
         }
      return cotizarcancelbañocorreizo(alto, ancho, coloralum, tipocanceltemplado, pelicula)
+    }
+    else if(/puerta/i.test(body)&&/tres cuartos/.test(body)){
+        console.log('entro a puerta una tres cuartos')
+        let g_vidrio;
+        let intermedios=1;
+        let vistas='unavista';
+        let tipoPuertaAluminio= 'solovidrio';
+        
+        if(/doble vista/.test(body)||/dos vistas/.test(body)){
+            vistas='dosvistas'
+        }
+        
+        if(/intermedios/.test(body)){
+            console.log(body.substring(body.search(/interme/)-2,body.search(/interme/)-1))
+            intermedios=parseFloat(body.substring(body.search(/intermedio/)-2,body.search(/intermedio/)-1))
+        }
+        console.log(intermedios)
+        
+        if(/solo aluminio/.test(body)||/puro aluminio/.test(body)||/solo duela/.test(body)||/enter/.test(body)){
+            g_vidrio=0;
+            tipoPuertaAluminio='soloaluminio'
+        }
+        else if(/mitad vidrio/.test(body)||/mitad aluminio/.test(body)||/mitad y mitad/.test(body)||/mitad duela/.test(body)){
+            g_vidrio=cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, (alto-10)/2, ancho-10, pelicula)
+            tipoPuertaAluminio='mitadaluminio';
+        }else{
+            g_vidrio=cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto-10, ancho-10, pelicula)
+        }
+
+     return cot_Puertaunatrescuartos(alto, ancho, coloralum, tipoPuertaAluminio, g_vidrio, vistas, intermedios)
     }
 
     else if(/puerta/i.test(body)&&/aluminio/.test(body)&&!/corrediza/.test(body)){
@@ -191,16 +232,39 @@ let pelicula = 0
             tipoPuertaAluminio='mitadaluminio';
         }
 
-     return cotizadorPuerta(alto, ancho, coloralum, tipoPuertaAluminio, g_vidrio, vistas, in_vent_nacional)
+     return cotizadorPuerta3in(alto, ancho, coloralum, tipoPuertaAluminio, g_vidrio, vistas, in_vent_nacional)
     }
-    else if(/proyeccion/i.test(body)){
+
+    else if(/puertas/i.test(body)&&(/duela/.test(body))){
+        let vistas='unavista';
+        let tipoPuertaAluminio= 'soloaluminio';
+        if(/doble vista/.test(body)||/dos vistas/.test(body)){
+            vistas='dosvistas'
+        }
+
+        return cot_puertasduela(alto, ancho, coloralum, tipoPuertaAluminio, vistas)
+    }
+
+    else if((/proyeccion/i.test(body)||/proyección/i.test(body))&&/serie/.test(body)){
+        console.log('entro proyeccion serie')
+
+        const serie=body.substring(body.search(/serie/)+6,body.search(/serie/)+10)
+        console.log(serie)
         const g_vidrio=cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula)
 
-        return cot_proyeccion(alto, ancho, coloralum, g_vidrio)
+        return cot_proyeccionSerie(alto, ancho, coloralum, g_vidrio, serie)
+    }
+
+
+    else if(/proyeccion/i.test(body)||/proyección/i.test(body)&&!/serie/.test(body)){
+        const g_vidrio=cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula)
+
+        return cot_proyeccion35(alto, ancho, coloralum, g_vidrio)
     }
    
-    else if(/serie 4000/i.test(body)){
+    else if(/serie /i.test(body)&&/corrediza/i.test(body)){
 
+        let serie=body.substring(body.search(/serie/)+6,body.search(/serie/)+10)
         console.log('entro a la serie 4000')
         let mosquitero= false;
 
@@ -209,8 +273,9 @@ let pelicula = 0
         }
         const g_vidrio=cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto-15, ancho-15, pelicula)
         console.log('gasto vidrio:', g_vidrio)
-        return cot_serie4000(alto, ancho, g_vidrio, mosquitero, hojas, coloralum)
+        return cot_serie4000(alto, ancho, g_vidrio, mosquitero, hojas, coloralum, serie)
     }
+
     else if(/espejo flotado/i.test(body)){
         console.log('entro a espejo flotado')
         const g_vidrio=cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula)
@@ -220,11 +285,11 @@ let pelicula = 0
         let led= false;
         let touch= false;
 
-        if(/esmerilado/.test(body)){
+        if(/ esmeril/.test(body)){
             esmerilado=true
         }
 
-        if(/bisel/.test(body)){
+        if(/ bisel/.test(body)){
             biselado= true
         }
 
@@ -238,8 +303,17 @@ let pelicula = 0
 
         return cot_espejoflotado(alto, ancho, g_vidrio, esmerilado, biselado, led, touch)
     }
-    else if(/fija/i.test(body)||/fijo/i.test){
-        console.log('entro a fija')
+
+    else if((/fija/i.test(body)||/fijo/i.test(body))&&/serie /.test(body)){
+        console.log('entro a linea española')
+        const serie=body.substring(body.search(/serie/)+6,body.search(/serie/)+10)
+        const g_vidrio=cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula);
+
+        return cot_FijaEspañola(alto, ancho, coloralum, g_vidrio, serie)
+    }
+
+    else if(/fija /i.test(body)||/fijo /i.test(body)&&!/españ?ola/.test(body)&&!/sifon/.test(body)){
+        console.log('entro a fija simple')
         const g_vidrio=cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula)
         let in_vent_nacional = '3in';
         const divicion = 0;
@@ -252,14 +326,30 @@ let pelicula = 0
         }
 
         if(/2 pulgadas/.test(body)||/2in/.test(body)){
-            in_vent_nacional='2in'}
+            in_vent_nacional='2in';
+        }
         
 
         return cot_fija(alto, ancho, coloralum, in_vent_nacional, g_vidrio, divicion)
     }
 
+    else if(/sifon/i.test(body)||/sifón/.test(body)){
+        
+        const g_vidrio= cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto+8, ancho, pelicula);
+
+        return cot_fijaSifon(alto, ancho, coloralum, g_vidrio)
+    }
+
+    else if(/cubierta/.test(body)){
+        
+        if(/esmerilad/.test(body)){
+            pelicula =procesos.esmerilado
+        }
+        return cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula, procesPerimetros)
+    }
+
     else{
-        return cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula)
+        return cot_vidrio(tipo_vidrio, grosor_vidrio, proceso_vidrio, alto, ancho, pelicula, procesPerimetros)
     }
 
 

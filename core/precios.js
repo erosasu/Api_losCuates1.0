@@ -1,12 +1,19 @@
+var procesos={
+    esmerilado:100,
+    biselado:50,
+    templado:200,
+    cantoboleado:50,
+    chaflan:50,
 
+}
 var materiales={
     cristal :{
         'claro':{'3mm':{'crudo':156},
                 '4mm' :{'crudo':229},
                 '6mm':{'crudo' :284,
-                        'templado':639
-            },'9mm':{'crudo':550,
-                        'templado':998}},
+                        'templado':500
+            },'9mm':{'crudo':600,
+                        'templado':930}},
 
         'tintex':{'6mm':{'crudo':385, 
                         'templado':800
@@ -40,7 +47,7 @@ var materiales={
         carre_mosqui:10,
         fleje:12,
         carrecancel:15,
-        operador:200,
+        operador:209,
         bisaeuro:40,
         bisa_temp_desce:200,
         bisa_temp_180:250,
@@ -53,14 +60,16 @@ var materiales={
         plana12:15,
         carrito: 50,
         vinil11:80,
+        vinil15:150,
         chapatetra:200,
         doblemanija:300,
         pivote:120,
         embutir4000:120,
-        kittemplado6mm:{'natural':{ '130':1000, '150':1100, '200':1300},
-                        'cromado':{'130':1000, '150':1100, '200':1300},
-                        'negro':{'130':1000, '150':1100, '200':1300},
-                        'blanco':{'130':1000, '150':1100, '200':1300}}
+        kittemplado6mm:{'natural':{ '120':950, '150':1030, '200':1160},
+                        'cromado':{'120':1140, '150':1240, '200':1370},
+                        'negro':{'120':1095, '150':1175, '200':1310},
+                        'blanco':{'120':1095, '150':1175, '200':1310},
+                        'e100':{'120':1095,'150':1175,'200':1310}}
     },
     mosquitero :{
         'natural' : {
@@ -90,8 +99,16 @@ var materiales={
         'e100' : {
             vertical460 : 300,
             vertical610:400,
-            hotizontal: 400,
+            horizontal: 400,
             adaptador : 200,
+            silla:250,
+            solera: 170
+        },
+        'griseuropa' : {
+            vertical460 : 300,
+            vertical610:392,    //act 15-03-2023
+            horizontal: 384,    //act 15-03-2023
+            adaptador : 213,    //act 15-03-2023
             silla:250,
             solera: 170
         }
@@ -213,9 +230,22 @@ var materiales={
                 zoclo2venas: 500,
                 zoclo1vena: 400,
                 cabezal: 250,   
+            },
+            'griseuropa' : {
+                jamba_s_mosq : 500,
+                jamba_c_mosq : 898, //act 15-03-2023-alamo
+                riel_s_mos : 498,   //act 15-03-2023-alamo
+                riel_c_mos: 700,
+                cerco460: 350,
+                cerco610: 505,      //act 15-03-2023-alamo
+                traslape460: 380,
+                traslape610 : 593,  //act 15-03-2023-alamo
+                zoclo2venas: 777,   //act 15-03-2023-alamo
+                zoclo1vena: 400,
+                cabezal: 426,       //act 15-03-2023-alamo
             }
         },
-        'serie4000':{
+        '4000':{
             'natural':{
                 riel:{'2':1200,'3':1500},  
                 hojaventana:800,
@@ -270,6 +300,14 @@ var materiales={
             contramarco:404
         },
         'negro':{
+            marco:450,
+            contramarco:404
+        },
+        'griseuropa':{
+            marco:567,               //act 16-03-23 Alamo
+            contramarco:495          //act 16-03-23 Alamo
+        },
+        'e100':{
             marco:450,
             contramarco:404
         }
@@ -348,6 +386,16 @@ var materiales={
             intermedio: 600,
             rielpesado: 1700,
             remate:600,
+        },
+        'griseuropa' :{
+            cerco460:500,
+            cerco610:571,   //act 15-03-2023-alamo
+            zoclo:797,      //act 15-03-2023-alamo
+            cabezal :608,   //act 15-03-2023-alamo
+            junquillo: 187, //act 15-03-2023-alamo
+            intermedio: 559,//act 15-03-2023-alamo
+            rielpesado: 1700,
+            remate:600,
         }
     },
     proyeccion:{
@@ -366,6 +414,10 @@ var materiales={
         'e100':{
             marco : 450,
             contramarco : 500
+        },
+        'griseuropa':{
+            marco : 600,
+            contramarco : 650
         }
     },
     fija:{
@@ -426,6 +478,16 @@ var materiales={
                 escalonado:380,
                 junquillo2:170,
                 bolsacorta:490,
+            },
+            'griseuropa' :{
+                tapalisa:150,
+                molduraunion:150,
+                esquinero:650,
+                tapabolsa:240,
+                bolsa:400,
+                escalonado:380,
+                junquillo2:170,
+                bolsacorta:490,
             }
         },
         '3in':{
@@ -463,10 +525,61 @@ var materiales={
                 bolsalisa:421,
             },
             'e100' :{
-                bolsa:300,
-                escalonado:250,
-                junquillo2:100
-            }
+                tapalisa:185,
+                molduraunion:150,
+                esquinero:828,
+                tapabolsa:295,
+                bolsa:553,
+                escalonado:497,
+                junquillo2:148,
+                bolsacorta:521,
+                bolsalisa:421,
+            },
+            'griseuropa' :{
+                tapalisa:366,           //act 16-03-23 Alamo
+                molduraunion:150,
+                esquinero:828,
+                tapabolsa:295,
+                bolsa:797,              //act 16-03-23 Alamo
+                escalonado:716,         //act 16-03-23 Alamo
+                junquillo2:246,         //act 16-03-23 Alamo
+                bolsacorta:521,
+                bolsalisa:421,
+            },
+        },
+        '1400':{
+            'natural':{
+                marcobatiente:626,
+                hojaventana:720,
+                junquillo:247,
+                fijotubular:900,
+                junquilloredon:200,
+                escuadra:25,
+            },
+            'blanco':{
+                marcobatiente:626,
+                hojaventana:720,
+                junquillo:247,
+                fijotubular:900,
+                junquilloredon:200,
+                escuadra:25,
+            },
+            'negro':{
+                marcobatiente:626,
+                hojaventana:720,
+                junquillo:247,
+                fijotubular:900,
+                junquilloredon:200,
+                escuadra:25,
+            },
+            'griseuropa':{
+                marcobatiente:626,  //act 15-03-2023-alamo
+                hojaventana:720,    //act 15-03-2023-alamo
+                junquillo:247,      //act 15-03-2023-alamo
+                fijotubular:900,
+                junquilloredon:200,
+                escuadra:25,
+            },
         }
     },
     tubular:
@@ -514,6 +627,21 @@ var materiales={
             '4x1.75':930,
             '2.5x1.25':490,
             '3x1.75':623
+        },
+        'griseuropa' :{
+            '3/4':180,
+            '1.5':350,
+            '1.75':500,
+            '1.25':320,
+            '1x1':270,
+            '2x1':400,
+            '2x2':480,
+            '3x1':560,
+            '3x1.5':580,
+            '1.5x.75':270,
+            '4x1.75':1150,
+            '2.5x1.25':570,
+            '3x1.75':700
         }
     },
     peliculas :{
@@ -531,20 +659,25 @@ var materiales={
     },
     perfilesvarios:{
                 'natural':{silla:150,
-                            batientedoble:250},
+                            batientedoble:250,
+                            batientetrescuartos:100},
                 'blanco':{silla:150,
-                    batientedoble:250},
+                    batientedoble:250,
+                    batientetrescuartos:100},
                 'negro':{silla:150,
-                    batientedoble:250},
+                    batientedoble:250,
+                    batientetrescuartos:100},
                 'e100':{silla:150,
-                    batientedoble:250},
+                    batientedoble:250,
+                    batientetrescuartos:100},
                 'griseuropa':{silla:150,
-                    batientedoble:250},
+                    batientedoble:250,
+                    batientetrescuartos:100},
                 },
 }
 
 
-module.exports= {materiales}
+module.exports= {materiales, procesos}
 
 
 
