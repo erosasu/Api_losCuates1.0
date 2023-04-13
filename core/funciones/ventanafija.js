@@ -1,4 +1,4 @@
-const { materiales } = require('../precios')
+const { materiales, Indalum } = require('../precios')
 
 
 function cot_fija(alto, ancho, coloralum, tipo, g_vidrio, divicion){
@@ -42,5 +42,29 @@ function cot_fijaSifon(alto, ancho, coloralum, g_vidrio){
     total=g_aluminio+g_mosquitero+g_adesivos+g_vidrio
     return total;
 }
+function cot_fijoIndalum3500(alto, ancho, coloralum, divicion, g_vidrio){
+    console.log(coloralum)
+    console.log(divicion)
+    const g_aluminio=(Indalum['3500'][coloralum].cerco['chapa']/605+Indalum['3500'][coloralum].junquillo*2/605)*(alto*2+ancho*2)+
+    (Indalum['3500'][coloralum].intermedio.normal/605+Indalum['3500'][coloralum].junquillo*2/605)*(divicion)*(alto)+
+    (materiales.perfilesvarios.anguloEscuadra/600)*(5*(4+divicion*2))
 
-module.exports= {cot_fija, cot_FijaEspañola, cot_fijaSifon}
+    
+    
+    const g_herrajes= (materiales.vinilrollo.vinil15/60)*(2*(alto/100+ancho/100)+divicion*alto*2/100)+materiales.selladores.acrilastic
+    console.log('aluminio:', g_aluminio)
+    console.log('herrajes:', g_herrajes)
+    console.log('vidrio:', g_vidrio)
+    const total= g_aluminio+g_herrajes+g_vidrio
+
+    return total;
+
+}
+
+function cot_fijoTemplado(gastovidrio, canti_herrajes){
+
+    const total= gastovidrio+ materiales.herrajes.escuadra_temp*canti_herrajes
+    return total
+}
+
+module.exports= {cot_fija, cot_FijaEspañola, cot_fijaSifon, cot_fijoIndalum3500, cot_fijoTemplado}

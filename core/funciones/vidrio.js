@@ -36,4 +36,6 @@ function cot_espejoflotado(alto, ancho, gasto_vidrio, emerilado, biselado, led, 
     return total
 }
 
+
+
 module.exports = { cot_vidrio, cot_espejoflotado }

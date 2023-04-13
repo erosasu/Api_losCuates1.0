@@ -1,4 +1,4 @@
-var procesos={
+const procesos={
     esmerilado:100,
     biselado:50,
     templado:200,
@@ -6,7 +6,7 @@ var procesos={
     chaflan:50,
 
 }
-var materiales={
+const materiales={
     cristal :{
         'claro':{'3mm':{'crudo':156},
                 '4mm' :{'crudo':229},
@@ -39,6 +39,17 @@ var materiales={
         fijaset:150,
         norton:300
     },
+    vinilrollo:{
+        vinil11:800,
+        vinil15:1050,
+
+    },
+    mallas:{
+        mosquitero:50,
+        mosquired:300,
+        mosquiterometal:100,
+        puertaPerro:400,
+    },
     herrajes : {
         embutir2pulgadad:50,
         embutir3pulgadas:60,
@@ -58,9 +69,10 @@ var materiales={
         kit6mm_200:1250,
         tornillo:1,
         plana12:15,
-        carrito: 50,
         vinil11:80,
-        vinil15:150,
+        carrito: 50,
+        chaparesidencial:800,
+        bisagrasresidencial:189,
         chapatetra:200,
         doblemanija:300,
         pivote:120,
@@ -79,6 +91,8 @@ var materiales={
             adaptador :142,
             silla:250,
             solera:150,
+            mosquiteroZ:350,
+            colgante:400,
         },
         'blanco' : {
             vertical460 : 300,
@@ -86,7 +100,9 @@ var materiales={
             horizontal: 400,
             adaptador : 200,
             silla:250,
-            solera:150
+            solera:150,
+            mosquiteroZ:350,
+            colgante:400,
         },
         'negro' : {
             vertical460 : 297,
@@ -94,7 +110,9 @@ var materiales={
             horizontal: 384,
             adaptador : 211,
             silla:250,
-            solera:150
+            solera:150,
+            mosquiteroZ:350,
+            colgante:400,
         },
         'e100' : {
             vertical460 : 300,
@@ -102,7 +120,9 @@ var materiales={
             horizontal: 400,
             adaptador : 200,
             silla:250,
-            solera: 170
+            solera: 170,
+            mosquiteroZ:350,
+            colgante:400,
         },
         'griseuropa' : {
             vertical460 : 300,
@@ -110,7 +130,19 @@ var materiales={
             horizontal: 384,    //act 15-03-2023
             adaptador : 213,    //act 15-03-2023
             silla:250,
-            solera: 170
+            solera: 170,
+            mosquiteroZ:350,
+            colgante:400,
+        },
+        'madera' : {
+            vertical460 : 300,
+            vertical610:508,    //act 15-03-2023
+            horizontal: 530,    //act 15-03-2023
+            adaptador : 322,    //act 15-03-2023
+            silla:250,
+            solera: 278,
+            mosquiteroZ:350,
+            colgante:400,
         }
     },
     corrediza:{
@@ -176,8 +208,21 @@ var materiales={
                 traslape610 : 480,
                 zoclo2venas: 500,
                 cabezal: 250,   
-            }},
-
+            },
+            'madera': {
+                jamba_s_mosq : 842, //04/04/2023 alamo
+                jamba_c_mosq: 1019, //04/04/2023 alamo
+                riel_s_mos : 530, //04/04/2023 alamo
+                riel_c_mos: 762, //04/04/2023 alamo
+                cerco460: 180,
+                cerco610: 440, //04/04/2023 alamo
+                traslape460: 229,
+                traslape610 : 548, //04/04/2023 alamo
+                zoclo2venas: 789,
+                cabezal: 409,
+                palomita: 332,
+            },
+        },
         '3in':{
             'natural' : {
                 jamba_s_mosq : 468,
@@ -186,6 +231,7 @@ var materiales={
                 riel_c_mos: 394,
                 cerco460: 334,
                 cerco610: 314,
+                intermedio:352,          //4/4/23 alamo
                 traslape460: 376,
                 traslape610 : 500,
                 zoclo2venas: 653,
@@ -199,6 +245,7 @@ var materiales={
                 riel_c_mos: 394,
                 cerco460: 334,
                 cerco610: 314,
+                intermedio:352,         //4/4/23 alamo
                 traslape460: 376,
                 traslape610 : 500,
                 zoclo2venas: 653,
@@ -212,6 +259,7 @@ var materiales={
                 riel_c_mos: 394,
                 cerco460: 334,
                 cerco610: 314,
+                intermedio:352,
                 traslape460: 376,
                 traslape610 : 500,
                 zoclo2venas: 653,
@@ -225,6 +273,7 @@ var materiales={
                 riel_c_mos: 500,
                 cerco460: 350,
                 cerco610: 450,
+                intermedio:352,
                 traslape460: 380,
                 traslape610 : 480,
                 zoclo2venas: 500,
@@ -237,6 +286,7 @@ var materiales={
                 riel_s_mos : 498,   //act 15-03-2023-alamo
                 riel_c_mos: 700,
                 cerco460: 350,
+                intermedio:352,
                 cerco610: 505,      //act 15-03-2023-alamo
                 traslape460: 380,
                 traslape610 : 593,  //act 15-03-2023-alamo
@@ -272,9 +322,9 @@ var materiales={
                 carrehoja:80,
                 carremosqui:50
             },
-            'griseuropa':{riel:{'2':1200,'3':1500},  
+            'griseuropa':{riel:{'2':1100,'3':1400},  
                 hojaventana:800,
-                hojamosqui:900,
+                hojamosqui:800,
                 escuadrahoja:20,
                 escuadrariel:25,
                 carrehoja:80,
@@ -333,17 +383,18 @@ var materiales={
         }
     },
     laminas:{
-        'acrilico':{
+        acrilico:{
             acri90x180:880, 
             acri120x180:1172, 
             acri150x180:1475, 
             acri180x240:2345},
-        'plastico':{
+        plastico:{
             pla60x180:350,
+            pla80x180:384, //4/4/23 alamo
             pla100x180:450,
             pla120x180:550,
             pla150x180:650,},
-        'policarbonato':205
+        policarbonato:205
     },
     puerta_unatrescuartos:{
         'natural' :{
@@ -412,8 +463,8 @@ var materiales={
             contramarco : 500
         },
         'e100':{
-            marco : 450,
-            contramarco : 500
+            marco : 584,
+            contramarco : 510
         },
         'griseuropa':{
             marco : 600,
@@ -448,8 +499,9 @@ var materiales={
                 escalonado:324,
                 junquillo2:131,
                 bolsacorta:440,
+                canalliso:400,
             },
-            'blanca' :{
+            'blanco' :{
                 tapalisa:128,
                 molduraunion:130,
                 esquinero:581,
@@ -458,6 +510,7 @@ var materiales={
                 escalonado:324,
                 junquillo2:131,
                 bolsacorta:440,
+                canalliso:400,
             },
             'negro':{
                 tapalisa:128,
@@ -468,6 +521,7 @@ var materiales={
                 escalonado:324,
                 junquillo2:131,
                 bolsacorta:440,
+                canalliso:400,
             },
             'e100' :{
                 tapalisa:150,
@@ -478,6 +532,7 @@ var materiales={
                 escalonado:380,
                 junquillo2:170,
                 bolsacorta:490,
+                canalliso:400,
             },
             'griseuropa' :{
                 tapalisa:150,
@@ -488,6 +543,7 @@ var materiales={
                 escalonado:380,
                 junquillo2:170,
                 bolsacorta:490,
+                canalliso:400,
             }
         },
         '3in':{
@@ -652,12 +708,13 @@ var materiales={
         },
     duela:{
         'natural':{'unavista':370,'dosvistas':630},
-        'blanco':{'unavista':370,'dosvistas':630},
+        'blanco':{'unavista':393,'dosvistas':630},   //4/4/2023 alamo
         'negro':{'unavista':370,'dosvistas':630},
         'e100':{'unavista':370,'dosvistas':630},
         'griseuropa':{'unavista':500,'dosvistas':800},
     },
     perfilesvarios:{
+                anguloEscuadra:640,
                 'natural':{silla:150,
                             batientedoble:250,
                             batientetrescuartos:100},
@@ -676,8 +733,30 @@ var materiales={
                 },
 }
 
+const Indalum={
+    '3500':{
+        'griseuropa':{
+            cerco:{'chapa':850,'residencial':1600},
+            junquillo:200,
+            contramarco:705,
+            cabezal:1121,
+            zoclo:{'normal':1616,'residencial':3000},
+            intermedio:{'normal':705,'residencial':1500}
+            }
+    },
+    '2500':{
+        'griseuropa':
+                {riel: 1183,
+                hoja:760,
+                tapatraslape:295,
+                mosquitero:769,
+                escuadra:22,
+                carretilla:85  }
+    }
+}
 
-module.exports= {materiales, procesos}
+
+module.exports= {materiales, procesos, Indalum}
 
 
 

@@ -2,7 +2,7 @@ const { composicion_producto } = require("./index_cotizador")
 
 
 function descomponerMensaje(msg){
-    let porcganacia=2.5
+   
     let alto
     let ancho
     let submsg = [];
@@ -11,12 +11,17 @@ function descomponerMensaje(msg){
     let gastosUnitarios = []; 
     let Productos=[];
     
-    submsg = msg.split(/,/)
+    submsg = msg.split(/, /)
    
     
     for(i=0;i<submsg.length;i++){
         let por_ganancia;
         let cantidad = 1;
+        let lugar= '';
+
+        if(/</.test(submsg[i])&&/>/.test(submsg[i])){
+            lugar=submsg[i].substring(submsg[i].search(/</)+1,submsg[i].search(/>/))
+        }
         
         let medidas;
         
@@ -31,20 +36,29 @@ function descomponerMensaje(msg){
 
             if(submsg[i].search(/\d{1,2}/)==0){
             cantidad = parseInt(medidas.shift())   
+            submsg[i]= submsg[i].slice(2)
             }
             
-
-            if(/corrediza/i.test(submsg[i])){
-                por_ganancia=2.4;
+            if(/serie/.test((submsg[i]))){
+                por_ganancia=2;
+            }
+            else if(/corrediza/i.test(submsg[i])){
+                por_ganancia=2.5;
             }
             else if(/domo/i.test(submsg[i])){
                 por_ganancia=3;
             }
-            else if(/puerta/i.test(submsg[i])&&(/aluminio/i.test(submsg[i])||/tres cuartos/.test(submsg[i]))){
-                por_ganancia=2.3;
+            else if(/reparacion/i.test(submsg[i])||/reparación/i.test(submsg[i])){
+                por_ganancia=3.4;
             }
-            else if(/proyeccion/i.test(submsg[i])){
-                por_ganancia=2.5
+            else if(/ serie /.test(submsg[i])&&/puerta/i.test(submsg[i])){
+                por_ganancia=2
+            }
+            else if(/puerta/i.test(submsg[i])&&(/aluminio/i.test(submsg[i])||/tres cuartos/.test(submsg[i]))){
+                por_ganancia=2.4;
+            }
+            else if(/proyeccion/i.test(submsg[i])||/proyección/.test(submsg[i])){
+                por_ganancia=2.4
             }
             else if(/cancel/.test(submsg[i])&&/baño/i.test(submsg[i])&&/templado/.test(submsg[i])){
                 por_ganancia=2
@@ -55,8 +69,11 @@ function descomponerMensaje(msg){
             else if(/cubierta/i.test(submsg[i])){
                 por_ganancia=3
             }
-            else if(/fijo?/i.test(submsg[i])){
-                por_ganancia=2.3
+            else if(/ serie /.test(submsg[i])){
+                por_ganancia=2
+            }
+            else if(/ fija /i.test(submsg[i])||/ fijo /.test(submsg[i])){
+                por_ganancia=2.5
             }
             else if(/plegadiza/.test(submsg[i])){
                 por_ganancia=2.3
@@ -87,12 +104,13 @@ function descomponerMensaje(msg){
             
             
             const Producto={
+                ubicacion:lugar,
                 quantity:cantidad,
                 descripcion:descripcionActual,
                 gastomaterial:gastoProducto,
                 porcientoganancia:por_ganancia,
-                precioUnitario:gastoProducto*por_ganancia,
-                importe:gastoProducto*por_ganancia*cantidad
+                precioUnitario:Math.trunc(gastoProducto*por_ganancia),
+                importe: Math.trunc(gastoProducto*por_ganancia*cantidad)
                 }
             
             

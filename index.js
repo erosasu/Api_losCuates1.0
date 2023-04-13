@@ -8,8 +8,8 @@ require('dotenv').config();
 //initializations
 const app = express();
 
-
 //configuraciones handlebars
+
 app.engine('handlebars', engine({
     partialsDir: __dirname+'/src/views/partials',
     helpers: require('./src/lib/handlebars')

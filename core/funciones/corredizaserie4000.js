@@ -1,35 +1,19 @@
 
-const {materiales} =  require('../precios')
+const {materiales, Indalum} =  require('../precios')
 
 function cot_serie4000(alto, ancho, gastovidrio, mosquitero, cant_hojas, coloralum,serie){
 
-    const  cant_riel2=0, cant_riel3=0, cant_mos=0, cant_adapt= 0;
     let g_mosquitero=0;
-    let viasriel='2'
-
-    if(cant_hojas==2&&mosquitero==false){
-        viasriel='2';
-    }
-    else if(cant_hojas==2&&mosquitero==true){
-        viasriel='3';
-    }
-    else if(cant_hojas==3&&mosquitero==false){
-        viasriel='3';
-    }
-    else if(cant_hojas==3&&mosquitero==true){
-        viasriel='3';
-    }
-
-    const g_perimetro=(materiales.corrediza[serie][coloralum].riel[viasriel]/600)*(alto*2+ancho*2)
-    const g_hojas=(materiales.corrediza[serie][coloralum].hojaventana/600)*(ancho*2+alto*2*cant_hojas)+
-    (materiales.corrediza[serie][coloralum].traslape/600)*(alto*(cant_hojas+1))
-    let g_herrajes=materiales.corrediza[serie][coloralum].carrehoja*cant_hojas*2+
-    materiales.corrediza[serie][coloralum].escuadrahoja*cant_hojas*4+
-    materiales.corrediza[serie][coloralum].escuadrariel*8+materiales.herrajes.vinil11+materiales.selladores.acrilastic*2+materiales.herrajes.embutir4000
+    
+    const g_perimetro=(Indalum[2500].griseuropa.riel/600)*(alto*2+ancho*2)
+    const g_hojas=(Indalum[2500].griseuropa.hoja/600)*(ancho*2+alto*2*cant_hojas)+
+    (Indalum[2500].griseuropa.tapatraslape/600)*(alto*(cant_hojas))
+    let g_herrajes=Indalum[2500].griseuropa.carretilla*2+Indalum[2500].griseuropa.escuadra*cant_hojas*4+Indalum[2500].griseuropa.escuadra*8+
+    materiales.selladores.acrilastic+materiales.herrajes.embutir4000
 
     if(mosquitero){
-    g_mosquitero=(materiales.corrediza[serie][coloralum].hojamosqui/600)*(alto*2+(ancho/cant_hojas)*2);
-    g_herrajes+=materiales.corrediza[serie][coloralum].carremosqui*2+materiales.corrediza['serie4000']['blanco'].escuadrahoja*4
+    g_mosquitero=(Indalum[2500].griseuropa.mosquitero/600)*(alto*2+(ancho/cant_hojas)*2);
+    g_herrajes+=Indalum[2500].griseuropa.carretilla*2+Indalum[2500].griseuropa.escuadra*4
     }
 
     console.log('perimetro:', g_perimetro)
